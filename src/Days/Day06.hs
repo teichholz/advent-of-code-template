@@ -1,4 +1,4 @@
-module Days.Day06 (runDay) where
+module Days.Day06 where
 
 {- ORMOLU_DISABLE -}
 import Data.List
@@ -16,24 +16,16 @@ import Data.Attoparsec.Text
 import Data.Void
 {- ORMOLU_ENABLE -}
 
-runDay :: Bool -> String -> IO ()
-runDay = R.runDay inputParser partA partB
 
------------- PARSER ------------
-inputParser :: Parser Input
-inputParser = error "Not implemented yet!"
+groupLs = groupBy (\_ a2 -> not . null $ a2) . lines
 
------------- TYPES ------------
-type Input = Void
+groupStrs = fmap concat . groupLs
 
-type OutputA = Void
+allYes = foldl1 intersect . (filter (not . (=="")))
 
-type OutputB = Void
+sumOfllength = sum . fmap length
 
------------- PART A ------------
-partA :: Input -> OutputA
-partA = error "Not implemented yet!"
-
------------- PART B ------------
-partB :: Input -> OutputB
-partB = error "Not implemented yet!"
+main = do
+    input <- readFile "input/Day06.txt"
+    print $ sumOfllength $ fmap nub $ groupStrs input
+    print $ sumOfllength $ fmap allYes $ groupLs input

@@ -4,16 +4,14 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c048de24b751a122b2e914acaa90bbd5e796a925ef6214118e4891baf487f88f
+-- hash: a47fa33a287e0bf1a17c275452a51b027083dc15b8b266a8e107fef58174334b
 
 name:           aoc-template
 version:        0.1.0.0
 description:    A template for Advent of Code projects in Haskell
-homepage:       https://github.com/samcoy3/advent-of-code-template#readme
-bug-reports:    https://github.com/samcoy3/advent-of-code-template/issues
-author:         Sam Coy
-maintainer:     samcoy3@gmail.com
-copyright:      2020 Sam Coy
+homepage:       https://github.com/teichholz/advent-of-code-template#readme
+bug-reports:    https://github.com/teichholz/advent-of-code-template/issues
+author:         Tim Eichholz
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
@@ -22,7 +20,7 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/samcoy3/advent-of-code-template
+  location: https://github.com/teichholz/advent-of-code-template
 
 library
   exposed-modules:
@@ -60,16 +58,19 @@ library
       src
   default-extensions: EmptyCase FlexibleContexts FlexibleInstances InstanceSigs MultiParamTypeClasses LambdaCase MultiWayIf RecordWildCards TupleSections OverloadedStrings ScopedTypeVariables GADTs NumericUnderscores DeriveFunctor DeriveFoldable
   build-depends:
-      attoparsec
-    , base >=4.7 && <5
-    , containers
-    , directory
-    , mtl
-    , optparse-applicative
-    , parser-combinators
-    , pointedlist
-    , text
-    , vector
+                        attoparsec
+                , array >= 0.5.4.0
+                , base >=4.7 && <5
+                , containers
+                , directory
+                , mtl
+                , optparse-applicative
+                , parser-combinators
+                , pointedlist
+                , split >= 0.2.3.4
+                , text
+                , transformers >= 0.5.6.2
+                , vector
   default-language: Haskell2010
 
 executable aoc-template-exe
@@ -81,15 +82,18 @@ executable aoc-template-exe
   default-extensions: EmptyCase FlexibleContexts FlexibleInstances InstanceSigs MultiParamTypeClasses LambdaCase MultiWayIf RecordWildCards TupleSections OverloadedStrings ScopedTypeVariables GADTs NumericUnderscores DeriveFunctor DeriveFoldable
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      aoc-template
-    , attoparsec
-    , base >=4.7 && <5
-    , containers
-    , directory
-    , mtl
-    , optparse-applicative
-    , parser-combinators
-    , pointedlist
-    , text
-    , vector
+                        aoc-template
+                , array >= 0.5.4.0
+                , attoparsec
+                , base >=4.7 && <5
+                , containers
+                , directory
+                , mtl
+                , optparse-applicative
+                , parser-combinators
+                , pointedlist
+                , split >= 0.2.3.4
+                , text
+                , transformers >= 0.5.6.2
+                , vector
   default-language: Haskell2010

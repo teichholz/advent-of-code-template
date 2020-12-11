@@ -1,39 +1,28 @@
-module Days.Day07 (runDay) where
+module Days.Day07 where
 
-{- ORMOLU_DISABLE -}
-import Data.List
-import Data.Map.Strict (Map)
-import qualified Data.Map.Strict as Map
-import Data.Maybe
-import Data.Set (Set)
-import qualified Data.Set as Set
-import Data.Vector (Vector)
-import qualified Data.Vector as Vec
-import qualified Util.Util as U
+import Data.Map hiding (map, filter)
+import Data.List.Split
 
-import qualified Program.RunDay as R (runDay)
-import Data.Attoparsec.Text
-import Data.Void
-{- ORMOLU_ENABLE -}
+type Node = String
+type Graph = Map Node [(Node, Int)]
 
-runDay :: Bool -> String -> IO ()
-runDay = R.runDay inputParser partA partB
+parse :: String -> (Node,[(Node,Int)])
+parse s = let [s1,s2] = splitWhen (== "contain") $ words s
+              col = foldl1 (\x y -> x++" "++y) $ init s1
+              s3 = splitWhen (\s -> s == "bags," || s == "bags."
+                                 || s == "bag."  || s == "bag,") s2
+              toNode (x:xs) = (foldl1 (\a b -> a++" "++b) xs, (read x) :: Int)
+          in  (col, if head s2 == "no" then [] else map toNode $ init s3)
 
------------- PARSER ------------
-inputParser :: Parser Input
-inputParser = error "Not implemented yet!"
+trav :: Graph -> Node -> [Node]
+trav g s = s : (concatMap (trav g) (map fst ch))
+  where ch = findWithDefault [] s g
 
------------- TYPES ------------
-type Input = Void
+countBags :: Graph -> Node -> Int
+countBags g s = sum (map snd ch) + sum (map (\(c,n) -> n * countBags g c) ch)
+  where ch = findWithDefault [] s g
 
-type OutputA = Void
-
-type OutputB = Void
-
------------- PART A ------------
-partA :: Input -> OutputA
-partA = error "Not implemented yet!"
-
------------- PART B ------------
-partB :: Input -> OutputB
-partB = error "Not implemented yet!"
+sol = do rules <- lines <$> readFile "input/Day07.txt"
+         let g = fromList $ map parse rules
+             haveGold = filter (elem "shiny gold") $ map (trav g) (keys g)
+         return $ (length haveGold - 1, countBags g "shiny gold")

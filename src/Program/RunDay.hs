@@ -6,7 +6,6 @@ import Data.Attoparsec.Text
 import Data.Text (pack)
 import System.Directory (doesFileExist)
 
-runDay :: (Show a, Show b, Show i) => Parser i -> (i -> a) -> (i -> b) -> Bool -> String -> IO ()
 runDay inputParser partA partB verbose inputFile = do
   input <- runExceptT $ do
     inputFileExists <- liftIO $ doesFileExist inputFile
@@ -15,11 +14,11 @@ runDay inputParser partA partB verbose inputFile = do
         then (liftIO $ readFile inputFile)
         else throwError $ "I couldn't read the input! I was expecting it to be at " ++ inputFile
     case (parseOnly inputParser . pack $ fileContents) of
-      Left e -> throwError $ "Parser failed to read input. Error " ++ e
+      Left _ -> throwError $ "Parser failed to read input. Error "
       Right i -> do
         when verbose $ do
           liftIO $ putStrLn "Parser output:"
-          liftIO . putStrLn . show $ i
+          -- liftIO . putStrLn . show $ i
         return i
   processInput input
   where
