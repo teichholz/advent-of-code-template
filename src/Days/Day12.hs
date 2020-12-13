@@ -1,4 +1,4 @@
-module Days.Day12 (runDay) where
+module Days.Day12  where
 
 {- ORMOLU_DISABLE -}
 import Data.List
@@ -10,30 +10,30 @@ import qualified Data.Set as Set
 import Data.Vector (Vector)
 import qualified Data.Vector as Vec
 import qualified Util.Util as U
+import Control.Monad.State.Lazy
+import Data.Bifunctor (bimap)
 
-import qualified Program.RunDay as R (runDay)
-import Data.Attoparsec.Text
 import Data.Void
 {- ORMOLU_ENABLE -}
 
-runDay :: Bool -> String -> IO ()
-runDay = R.runDay inputParser partA partB
+type Direction = Pos
+type Pos = (Float, Float)
+type ST = (Direction, Pos)
 
------------- PARSER ------------
-inputParser :: Parser Input
-inputParser = error "Not implemented yet!"
+parse ('L':num) = (deg2pos $ (read num :: Float), 0)
+parse ('R':num) = (deg2pos $ 360 - (read num :: Float), 0)
+parse ('N':num) = ((0, 1), read num)
+parse ('S':num) = ((0, -1), read num)
+parse ('E':num) = ((1, 0), read num)
+parse ('W':num) = ((-1, 0), read num)
+parse ('F':num) = ((0, 0), read num)
 
------------- TYPES ------------
-type Input = Void
+deg2pos deg = (cos $ deg2rad deg, sin $ deg2rad deg)
+deg2rad = (*) (pi / 180)
 
-type OutputA = Void
-
-type OutputB = Void
-
------------- PART A ------------
-partA :: Input -> OutputA
-partA = error "Not implemented yet!"
-
------------- PART B ------------
-partB :: Input -> OutputB
-partB = error "Not implemented yet!"
+main = do
+  input <- readFile "input/Day12.txt"
+  let ls = lines input
+      ops = fmap parse ls
+  print ls
+  print ops

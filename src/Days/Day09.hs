@@ -1,3 +1,4 @@
+
 module Days.Day09  where
 
 {- ORMOLU_DISABLE -}
@@ -42,11 +43,12 @@ findContiguousSet invalid input =
 
 contiguousSets :: [Int] -> [[Int]]
 contiguousSets [] = []
-contiguousSets xs = (filter (\xs -> length xs >=2) (inits xs)) ++
+contiguousSets xs = filter (\xs -> length xs >=2) (inits xs) ++
                       contiguousSets (tail xs)
 
 main = do
   input <- readFile "input/Day09.txt"
   let ls = lines input
       nums = parse ls
-      num = partA nums in print num
+      num = partA nums
+  print num
